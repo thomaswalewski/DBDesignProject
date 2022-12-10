@@ -12,6 +12,7 @@ def get_products():
     cursor = db.get_db().cursor()
 
     # use cursor to query the database for a list of company
+
     cursor.execute('select id, name, list_date from products')
 
     # grab the column headers from the returned data

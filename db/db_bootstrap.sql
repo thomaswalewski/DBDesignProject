@@ -1,5 +1,4 @@
 CREATE DATABASE GardenTracker;
-CREATE user 'webapp'@'%' Identified by 'abc123';
 Grant all privileges on GardenTracker.* TO 'webapp'@'%';
 FLUSH PRIVILEGES;
 
@@ -9,10 +8,10 @@ CREATE TABLE user(
     name Varchar(30) not null,
     email Varchar(30) not null,
     id int PRIMARY KEY AUTO_INCREMENT,
-    join_date DATE default now(),
+    join_date DATE DEFAULT ((CURRENT_DATE)),
     location VARCHAR(30));
 
-insert into user (name, email, join_date, location) values ('Ashli Pointin', 'apointin0@virginia.edu', '2022-04-23', 'Ak’ordat');
+insert into user (name, email, join_date, location) values ('Ashli Pointin', 'test@gmail.com', '2022-04-23', 'Ak’ordat');
 insert into user (name, email, join_date, location) values ('Yorgos Brasner', 'ybrasner1@usgs.gov', '2022-08-26', 'Lau');
 insert into user (name, email, join_date, location) values ('Krispin O''Loinn', 'koloinn2@fotki.com', '2022-05-05', 'Steinkjer');
 insert into user (name, email, join_date, location) values ('Aylmer MacInherney', 'amacinherney3@army.mil', '2022-03-31', 'Gaotang');
@@ -26,7 +25,7 @@ insert into user (name, email, join_date, location) values ('Rozalie Penquet', '
 CREATE TABLE garden(
     name Varchar(30) not null,
     id int AUTO_INCREMENT PRIMARY KEY,
-    start_date DATE default now(),
+    start_date DATE default (CURRENT_DATE),
     num_beds int,
     user_id int not null,
     FOREIGN KEY (user_id) references user(ID) ON DELETE CASCADE ON UPDATE CASCADE);
@@ -53,38 +52,38 @@ CREATE TABLE plants(
     garden_id int not null,
     FOREIGN KEY (garden_id) references garden(ID) ON UPDATE CASCADE);
 
-insert into plants (species, plant_date, garden_id) values ('Bigelow''s Amaranth', '1/18/2021', 1);
-insert into plants (species, plant_date, garden_id) values ('Nuttall''s Milkvetch', '8/28/2022', 2);
-insert into plants (species, plant_date, garden_id) values ('Tapertip Liveforever', '9/26/2022', 3);
-insert into plants (species, plant_date, garden_id) values ('Cucumberleaf Sunflower', '9/16/2022', 4);
-insert into plants (species, plant_date, garden_id) values ('Ptychomitrium Moss', '2/13/2022', 5);
-insert into plants (species, plant_date, garden_id) values ('Sand Palafox', '1/27/2022', 6);
-insert into plants (species, plant_date, garden_id) values ('Pestilence Wort', '6/19/2021', 7);
-insert into plants (species, plant_date, garden_id) values ('Fiveangled Dodder', '9/12/2021', 8);
-insert into plants (species, plant_date, garden_id) values ('Pink Mountainheath', '4/19/2022', 9);
-insert into plants (species, plant_date, garden_id) values ('Basketgrass', '1/7/2022', 10);
+insert into plants (species, plant_date, garden_id) values ('Bigelow''s Amaranth', '2022-10-05', 1);
+insert into plants (species, plant_date, height, garden_id) values ('Oak Tree', '2022-10-05', 10, 1);
+insert into plants (species, plant_date, garden_id) values ('Nuttall''s Milkvetch', '2020-11-04', 2);
+insert into plants (species, plant_date, garden_id) values ('Tapertip Liveforever', '2021-06-11', 3);
+insert into plants (species, plant_date, garden_id) values ('Cucumberleaf Sunflower', '2021-06-11', 4);
+insert into plants (species, plant_date, garden_id) values ('Ptychomitrium Moss', '2021-06-11', 5);
+insert into plants (species, plant_date, garden_id) values ('Sand Palafox', '2021-06-11', 6);
+insert into plants (species, plant_date, garden_id) values ('Pestilence Wort', '2021-06-11', 7);
+insert into plants (species, plant_date, garden_id) values ('Fiveangled Dodder', '2021-06-11', 8);
+insert into plants (species, plant_date, garden_id) values ('Pink Mountainheath', '2021-06-11', 9);
+insert into plants (species, plant_date, garden_id) values ('Basketgrass', '2021-06-11', 10);
 
 CREATE TABLE harvests(
     part_of_plant Varchar(30),
-    harvest_number int,
-    harvest_date DATE default now(),
+    id int AUTO_INCREMENT PRIMARY KEY,
+    harvest_date DATE default (CURRENT_DATE),
     plant_id int not null,
-    FOREIGN KEY (plant_id) references plants(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY (plant_id, harvest_number));
+    FOREIGN KEY (plant_id) references plants(id) ON DELETE CASCADE ON UPDATE CASCADE);
 
-insert into harvests (harvest_number, plant_id, harvest_date) values (1, 1, '7/8/2022');
-insert into harvests (harvest_number, plant_id, harvest_date) values (2, 2, '1/3/2022');
-insert into harvests (harvest_number, plant_id, harvest_date) values (3, 3, '8/13/2022');
-insert into harvests (harvest_number, plant_id, harvest_date) values (4, 4, '11/17/2022');
-insert into harvests (harvest_number, plant_id, harvest_date) values (5, 5, '5/18/2022');
-insert into harvests (harvest_number, plant_id, harvest_date) values (6, 6, '5/22/2021');
-insert into harvests (harvest_number, plant_id, harvest_date) values (7, 7, '7/8/2022');
-insert into harvests (harvest_number, plant_id, harvest_date) values (8, 8, '2/13/2022');
-insert into harvests (harvest_number, plant_id, harvest_date) values (9, 9, '5/12/2021');
-insert into harvests (harvest_number, plant_id, harvest_date) values (10, 10, '3/12/2021');
+insert into harvests (plant_id, harvest_date) values (1, '2021-02-24');
+insert into harvests (plant_id, harvest_date) values (2, '2021-02-24');
+insert into harvests (plant_id, harvest_date) values (3, '2021-02-24');
+insert into harvests (plant_id, harvest_date) values (4, '2021-02-24');
+insert into harvests (plant_id, harvest_date) values (5, '2021-02-24');
+insert into harvests (plant_id, harvest_date) values (6, '2021-02-24');
+insert into harvests (plant_id, harvest_date) values (7, '2021-02-24');
+insert into harvests (plant_id, harvest_date) values (8, '2021-02-24');
+insert into harvests (plant_id, harvest_date) values (9, '2021-02-24');
+insert into harvests (plant_id, harvest_date) values (10, '2021-02-24');
 
 CREATE TABLE watering(
-    water_date DATE default now(),
+    water_date DATE default (CURRENT_DATE),
     plant_id int not null,
     water_amount int,
     FOREIGN KEY (plant_id) references plants(id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -105,7 +104,7 @@ insert into watering (plant_id) values (10);
 CREATE TABLE company(
     name Varchar(30) not null,
     id int PRIMARY KEY AUTO_INCREMENT,
-    join_date DATE default now());
+    join_date DATE default (CURRENT_DATE));
 
 insert into company (name) values ('Ailane');
 insert into company (name) values ('Voonix');
@@ -117,6 +116,24 @@ insert into company (name) values ('Twitterlist');
 insert into company (name) values ('Devpoint');
 insert into company (name) values ('Skyble');
 insert into company (name) values ('Brainverse');
+
+CREATE TABLE employee(
+    name Varchar(30) not null,
+    id int not null auto_increment primary key,
+    email Varchar(30) not null,
+    reports_to int not null,
+    FOREIGN KEY (reports_to) references employee(id) ON DELETE RESTRICT ON UPDATE CASCADE);
+
+insert into employee (name, email, reports_to) values ('Ambrosi Fifield', 'afifield0@skype.com', 1);
+insert into employee (name, email, reports_to) values ('Karrah Giggs', 'kgiggs1@canalblog.com', 2);
+insert into employee (name, email, reports_to) values ('Nissy Search', 'nsearch2@nsw.gov.au', 3);
+insert into employee (name, email, reports_to) values ('Cully Tumbridge', 'ctumbridge3@reference.com', 4);
+insert into employee (name, email, reports_to) values ('Forrest Phizaclea', 'fphizaclea4@patch.com', 5);
+insert into employee (name, email, reports_to) values ('Rinaldo Coalburn', 'rcoalburn5@theglobeandmail.com', 6);
+insert into employee (name, email, reports_to) values ('Augustine Giacomoni', 'agiacomoni6@usa.gov', 7);
+insert into employee (name, email, reports_to) values ('Nicola Christofides', 'nchristofides7@ehow.com', 8);
+insert into employee (name, email, reports_to) values ('Leeann Kairns', 'lkairns8@marketwatch.com', 9);
+insert into employee (name, email, reports_to) values ('Lianna McAlester', 'lmcalester9@barnesandnoble.com', 10);
 
 CREATE TABLE company_representatives(
     name Varchar(30) not null,
@@ -140,7 +157,7 @@ insert into company_representatives (name, email, company_id, primary_contact) v
 CREATE TABLE products(
     name Varchar(30) not null,
     id int AUTO_INCREMENT PRIMARY KEY,
-    list_date DATE default now(),
+    list_date DATE default (CURRENT_DATE),
     company_id int not null,
     FOREIGN KEY (company_id) references company(id) ON UPDATE CASCADE);
 
@@ -158,7 +175,7 @@ insert into products (name, company_id) values ('Viva', 10);
 CREATE TABLE ratings(
     comments Varchar(200),
     rating int not null check (rating between 1 and 10),
-    rate_date DATE default now(),
+    rate_date DATE default (CURRENT_DATE),
     product_id int not null,
     user_id int not null,
     FOREIGN KEY product (product_id) references products(id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -176,27 +193,27 @@ insert into ratings (comments, rating, product_id, user_id) values ('pyivxaygqh 
 insert into ratings (comments, rating, product_id, user_id) values ('rlhaeqqqia agdf ekrsg ownmrpstef ', 9, 9, 9);
 insert into ratings (comments, rating, product_id, user_id) values ('ejkapjlpgt gmnn dvzts neznyhgnhi ', 10, 10, 10);
 
-CREATE TABLE group(
-    name Varchar(30),
-    id int not null primary key auto_increment,
-    creation_date DATE default now(),
+CREATE TABLE garden_groups(
+    group_name varchar(30),
+    id int AUTO_INCREMENT PRIMARY KEY,
+    start_date DATE default (CURRENT_DATE),
     leader_id int not null);
 
-insert into group (name, leader_id) values ('Bitchip', 1);
-insert into group (name, leader_id) values ('Sub-Ex', 2);
-insert into group (name, leader_id) values ('Bigtax', 3);
-insert into group (name, leader_id) values ('Flexidy', 4);
-insert into group (name, leader_id) values ('Sub-Ex', 5);
-insert into group (name, leader_id) values ('Cookley', 6);
-insert into group (name, leader_id) values ('Y-find', 7);
-insert into group (name, leader_id) values ('Trippledex', 8);
-insert into group (name, leader_id) values ('Stringtough', 9);
-insert into group (name, leader_id) values ('Veribet', 10);
+insert into garden_groups (group_name, leader_id) values ('Bitchip', 1);
+insert into garden_groups (group_name, leader_id) values ('Sub-Ex', 2);
+insert into garden_groups (group_name, leader_id) values ('Bigtax', 3);
+insert into garden_groups (group_name, leader_id) values ('Flexidy', 4);
+insert into garden_groups (group_name, leader_id) values ('Sub-Ex', 5);
+insert into garden_groups (group_name, leader_id) values ('Cookley', 6);
+insert into garden_groups (group_name, leader_id) values ('Y-find', 7);
+insert into garden_groups (group_name, leader_id) values ('Trippledex', 8);
+insert into garden_groups (group_name, leader_id) values ('Stringtough', 9);
+insert into garden_groups (group_name, leader_id) values ('Veribet', 10);
 
 CREATE TABLE user_group(
     user_id int not null,
     group_id int not null,
-    FOREIGN KEY group (group_id) references group(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY garden_groups (group_id) references garden_groups(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY user (user_id) references user(id) ON DELETE CASCADE ON UPDATE CASCADE,
     primary key (user_id, group_id));
 
@@ -249,23 +266,7 @@ insert into plant_products (plant_id, product_id) values (8, 8);
 insert into plant_products (plant_id, product_id) values (9, 9);
 insert into plant_products (plant_id, product_id) values (10, 10);
 
-CREATE TABLE employee(
-    name Varchar(30) not null,
-    id int not null auto_increment primary key,
-    email Varchar(30) not null,
-    reports_to int not null,
-    FOREIGN KEY (reports_to) references employee(id) ON DELETE RESTRICT ON UPDATE CASCADE);
 
-insert into employee (name, email, reports_to) values ('Ambrosi Fifield', 'afifield0@skype.com', 1);
-insert into employee (name, email, reports_to) values ('Karrah Giggs', 'kgiggs1@canalblog.com', 2);
-insert into employee (name, email, reports_to) values ('Nissy Search', 'nsearch2@nsw.gov.au', 3);
-insert into employee (name, email, reports_to) values ('Cully Tumbridge', 'ctumbridge3@reference.com', 4);
-insert into employee (name, email, reports_to) values ('Forrest Phizaclea', 'fphizaclea4@patch.com', 5);
-insert into employee (name, email, reports_to) values ('Rinaldo Coalburn', 'rcoalburn5@theglobeandmail.com', 6);
-insert into employee (name, email, reports_to) values ('Augustine Giacomoni', 'agiacomoni6@usa.gov', 7);
-insert into employee (name, email, reports_to) values ('Nicola Christofides', 'nchristofides7@ehow.com', 8);
-insert into employee (name, email, reports_to) values ('Leeann Kairns', 'lkairns8@marketwatch.com', 9);
-insert into employee (name, email, reports_to) values ('Lianna McAlester', 'lmcalester9@barnesandnoble.com', 10);
 
 CREATE TABLE page(
     name Varchar(30) not null primary key);
@@ -286,7 +287,7 @@ CREATE TABLE user_page(
     page_name VARCHAR(30) not null,
     duration_min int,
     log_off_after BIT(1),
-    visit_num int default count(user_id) + 1,
+    visit_num int auto_increment,
     FOREIGN KEY user (user_id) references user(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY page (page_name) references page(name) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (visit_num, user_id));

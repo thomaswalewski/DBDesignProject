@@ -15,3 +15,9 @@ if __name__ == '__main__':
     # Take a look at the docker-compose.yml to see 
     # what port this might be mapped to... 
     app.run(debug=True, host='0.0.0.0', port=4000)
+
+
+@app.route('/')
+def home_screen():
+    return "<h1>All is working</h1>"
+
