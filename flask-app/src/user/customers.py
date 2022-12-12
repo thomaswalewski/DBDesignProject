@@ -23,10 +23,10 @@ def get_plants(user_id):
     return the_response
 
 
-@user.route('/user/<user_id>/<plant_id>/water', methods=['GET'])
-def get_watering(plant_id):
+@user.route('/<user_id>/<plant_id>/water', methods=['GET'])
+def get_watering(plant_id, user_id):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from watering where plant_id = {0}'.format(plant_id))
+    cursor.execute('select water_date as x, water_amount as y from watering where plant_id = {0}'.format(plant_id))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -50,9 +50,10 @@ def add_plant(user_id):
     rec_wf = request.form['rec_wf']
     rec_wa = request.form['rec_wa']
 
-    cursor.execute('Insert into plants(species, garden_id, plant_date, height, bed_num, rec_water_freq, rec_water_amount)'
-                   ' values (%s, %s, %s, %s, %s, %s, %s)',
-                   (species1, garden_id1, plant_date1, height1, bed_num, rec_wf, rec_wa))
+    cursor.execute(
+        'Insert into plants(species, garden_id, plant_date, height, bed_num, rec_water_freq, rec_water_amount)'
+        ' values (%s, %s, %s, %s, %s, %s, %s)',
+        (species1, garden_id1, plant_date1, height1, bed_num, rec_wf, rec_wa))
     cursor.connection.commit()
     cursor.close()
     get_plants(user_id)
@@ -74,11 +75,10 @@ def get_gardens(user_id):
     return the_response
 
 
-
-@user.route('/<user_id>/<plant_id>', methods=['GET'])
-def get_plant(user_id, plant_id):
+@user.route('/<plant_id>/harvests', methods=['GET'])
+def get_harvests(plant_id):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from plants where id = {0}'.format(plant_id))
+    cursor.execute('select * from harvests where plant_id = {0}'.format(plant_id))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -89,5 +89,18 @@ def get_plant(user_id, plant_id):
     the_response.mimetype = 'application/json'
     return the_response
 
+
+@user.route('/<user_id>/<plant_id>/addWater', methods=['POST'])
+def add_water(user_id, plant_id):
+    cursor = db.get_db().cursor()
+
+    amount = request.form['amount']
+    day = request.form['day']
+    cursor.execute('Insert into watering(water_date, plant_id, water_amount)'
+                   ' values (%s, %s, %s )',
+                   (day, plant_id, amount))
+    cursor.connection.commit()
+    cursor.close()
+    return 'success'
 
 

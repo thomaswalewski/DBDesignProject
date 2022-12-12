@@ -3466,7 +3466,6 @@ insert into plant_products (plant_id, product_id, amount) values (13, 35, 17);
 insert into plant_products (plant_id, product_id, amount) values (628, 9, 7);
 insert into plant_products (plant_id, product_id, amount) values (135, 48, 2);
 insert into plant_products (plant_id, product_id, amount) values (738, 56, 19);
-insert into plant_products (plant_id, product_id, amount) values (588, 49, 5);
 insert into plant_products (plant_id, product_id, amount) values (63, 76, 14);
 insert into plant_products (plant_id, product_id, amount) values (431, 33, 7);
 insert into plant_products (plant_id, product_id, amount) values (80, 1, 2);
@@ -3501,19 +3500,19 @@ insert into plant_products (plant_id, product_id, amount) values (454, 88, 1);
 
 
 CREATE TABLE page(
-    name Varchar(30) not null,
+    pname Varchar(30) not null,
     id int auto_increment primary key);
 
-insert into page (name) values ('uecpwuvr');
-insert into page (name) values ('qshdlfit');
-insert into page (name) values ('wnpcayut');
-insert into page (name) values ('xwhqrhkg');
-insert into page (name) values ('mfruqlwp');
-insert into page (name) values ('xsnjjnbu');
-insert into page (name) values ('tesybeuk');
-insert into page (name) values ('odqxpmkh');
-insert into page (name) values ('muxxpwly');
-insert into page (name) values ('nokxspid');
+insert into page (pname) values ('home');
+insert into page (pname) values ('plants');
+insert into page (pname) values ('products');
+insert into page (pname) values ('friends');
+insert into page (pname) values ('groups');
+insert into page (pname) values ('login');
+insert into page (pname) values ('diagnostics');
+insert into page (pname) values ('settings');
+insert into page (pname) values ('ratings');
+insert into page (pname) values ('plant details');
 
 CREATE TABLE user_page(
     user_id int not null,

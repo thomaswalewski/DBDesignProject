@@ -6,14 +6,14 @@ company = Blueprint('company', __name__)
 
 
 # Get all the company from the database
-@company.route('/products', methods=['GET'])
-def get_products():
+@company.route('/products/<company_id>', methods=['GET'])
+def get_products(company_id):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
 
     # use cursor to query the database for a list of company
 
-    cursor.execute('select id, name, list_date from products')
+    cursor.execute('select id, name, list_date from products where company_id = {0}'.format(company_id))
 
     # grab the column headers from the returned data
     column_headers = [x[0] for x in cursor.description]
@@ -33,16 +33,20 @@ def get_products():
     return jsonify(json_data)
 
 
-# get the top 5 company from the database
-@company.route('/top5products')
-def get_most_pop_products():
+@company.route('/<product_id>', methods=['GET'])
+def get_ratings(product_id):
+    # get a cursor object from the database
     cursor = db.get_db().cursor()
-    query = ''''''
-    cursor.execute(query)
+
+    # use cursor to query the database for a list of company
+
+    cursor.execute('select rating as y, user_id as x'
+                   ' from ratings where product_id = {0}'.format(product_id))
+
     # grab the column headers from the returned data
     column_headers = [x[0] for x in cursor.description]
 
-    # create an empty dictionary object to use in 
+    # create an empty dictionary object to use in
     # putting column headers together with data
     json_data = []
 
@@ -50,13 +54,23 @@ def get_most_pop_products():
     theData = cursor.fetchall()
 
     # for each of the rows, zip the data elements together with
-    # the column headers. 
+    # the column headers.
     for row in theData:
         json_data.append(dict(zip(column_headers, row)))
 
     return jsonify(json_data)
 
 
-@company.route('/', methods=['GET'])
-def homepage():
-    return "<h1>this is a test!</h1>"
+@company.route('/<company_id>/addProduct', methods=['POST'])
+def add_product(company_id):
+    cursor = db.get_db().cursor()
+
+    name = request.form['name']
+    date = request.form['date']
+
+    cursor.execute(
+        'Insert into products(name, company_id, list_date)'
+        ' values (%s, %s, %s)', (name, company_id, date))
+    cursor.connection.commit()
+    cursor.close()
+    return 'success'
