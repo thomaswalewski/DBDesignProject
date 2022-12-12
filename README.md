@@ -12,7 +12,8 @@ The application is very easy and intuitive to use. The only necessary steps are 
 create the necessary db_password files, 
 run the docker compose build and up commands, and use ngrok to forward port 8001, as defined in the 
 docker-compose.yml file. Upon changing the source for the DB API in appsmith, you can deploy and go to the login
-page. Default values are provided, but exploration of the whole app is encouraged.\
+page. Default values are provided, but exploration of the whole app is encouraged. This functionality has been tested,
+I have fully cloned the repo to a new location in my system and completed these steps.\
 User IDs span from [1-50]. \
 Company IDs span from [1-30]. \
 Employee IDs span from [1-10]. 
