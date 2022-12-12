@@ -5,7 +5,7 @@ from flaskext.mysql import MySQL
 
 site_admin = Blueprint('views', __name__)
 
-
+# Gets all the company reps an employee is primary contact for.
 @site_admin.route('/<employeeID>/contacts', methods=['GET'])
 def get_contacts(employeeID):
     cursor = db.get_db().cursor()
@@ -22,6 +22,7 @@ def get_contacts(employeeID):
     return the_response
 
 
+# Gets the page details for an employee to look at.
 @site_admin.route('/getPageDetails', methods=['GET'])
 def get_page_details():
     cursor = db.get_db().cursor()

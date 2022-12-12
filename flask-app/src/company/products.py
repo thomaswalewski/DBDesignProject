@@ -5,26 +5,20 @@ from src import db
 company = Blueprint('company', __name__)
 
 
-# Get all the company from the database
+# Get all the products a company has.
 @company.route('/products/<company_id>', methods=['GET'])
 def get_products(company_id):
-    # get a cursor object from the database
+
     cursor = db.get_db().cursor()
 
-    # use cursor to query the database for a list of company
-
     cursor.execute('select id, name, list_date from products where company_id = {0}'.format(company_id))
-
     # grab the column headers from the returned data
     column_headers = [x[0] for x in cursor.description]
-
     # create an empty dictionary object to use in 
     # putting column headers together with data
     json_data = []
-
     # fetch all the data from the cursor
     theData = cursor.fetchall()
-
     # for each of the rows, zip the data elements together with
     # the column headers. 
     for row in theData:
@@ -33,6 +27,7 @@ def get_products(company_id):
     return jsonify(json_data)
 
 
+# Gets the ratings data for a specific product.
 @company.route('/<product_id>', methods=['GET'])
 def get_ratings(product_id):
     # get a cursor object from the database
@@ -61,6 +56,7 @@ def get_ratings(product_id):
     return jsonify(json_data)
 
 
+# Post request to allow a company to list another product.
 @company.route('/<company_id>/addProduct', methods=['POST'])
 def add_product(company_id):
     cursor = db.get_db().cursor()

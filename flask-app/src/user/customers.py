@@ -6,7 +6,7 @@ from flaskext.mysql import MySQL
 user = Blueprint('user', __name__)
 
 
-# Get all plants from a user with a particular userID
+# Get all plants from a user with a particular userID.
 @user.route('/user/<user_id>/plants', methods=['GET'])
 def get_plants(user_id):
     cursor = db.get_db().cursor()
@@ -23,6 +23,7 @@ def get_plants(user_id):
     return the_response
 
 
+# Getting the watering from a specific plant.
 @user.route('/<user_id>/<plant_id>/water', methods=['GET'])
 def get_watering(plant_id, user_id):
     cursor = db.get_db().cursor()
@@ -38,6 +39,7 @@ def get_watering(plant_id, user_id):
     return the_response
 
 
+# Post request for a user to add a plant to their garden.
 @user.route('/<user_id>/addPlant', methods=['POST'])
 def add_plant(user_id):
     cursor = db.get_db().cursor()
@@ -60,6 +62,7 @@ def add_plant(user_id):
     return 'success'
 
 
+# Gets the users garden ids and garden names.
 @user.route('/<user_id>/gardens', methods=['GET'])
 def get_gardens(user_id):
     cursor = db.get_db().cursor()
@@ -75,6 +78,7 @@ def get_gardens(user_id):
     return the_response
 
 
+# Gets all the harvests from a specific plant.
 @user.route('/<plant_id>/harvests', methods=['GET'])
 def get_harvests(plant_id):
     cursor = db.get_db().cursor()
@@ -90,6 +94,7 @@ def get_harvests(plant_id):
     return the_response
 
 
+# Post request to let record a watering of the plant.
 @user.route('/<user_id>/<plant_id>/addWater', methods=['POST'])
 def add_water(user_id, plant_id):
     cursor = db.get_db().cursor()
@@ -102,5 +107,3 @@ def add_water(user_id, plant_id):
     cursor.connection.commit()
     cursor.close()
     return 'success'
-
-
